@@ -1,5 +1,6 @@
 import { Container } from 'pixi.js';
 import config from '#root/config';
+import { Position } from '#root/types';
 import { Cell } from './Cell';
 
 class Grid extends Container {
@@ -28,11 +29,23 @@ class Grid extends Container {
     }
   };
 
-  setCells() {
+  
 
+  setCells(position: Position, values: { color?: number, state?: number }) {
+    position.forEach((pos: number[]) => {
+      console.log(pos);
+      const row = pos[0];
+      const col = pos[1];
+
+      const cell = this.cells[row][col];
+      const { color, state } = values;
+
+      if (color) cell.setColor(color);
+      if (state) cell.setState(state);
+    });
   };
 
-  setCell(row: number, col: number, values: { color: number, state: number }) {
+  setCell(row: number, col: number, values: { color?: number, state?: number }) {
     const cell = this.cells[row][col];
     const { color, state } = values;
     
