@@ -1,0 +1,24 @@
+# All files starting with ~
+~*
+
+# Cache files
+.cache
+
+# Dependency directories
+node_modules/
+
+# IDE files
+.vscode
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# OS generated files
+._*
+.ds_store
+.DS_Store
+.DS_STORE
+ehthumbs.db
+Thumbs.db

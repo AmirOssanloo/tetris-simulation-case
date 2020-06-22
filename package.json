@@ -1,12 +1,42 @@
 {
   "name": "tetris-simulation-case",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "author": "Amir Ossanloo <amir@skyinthesea.com>",
+  "description": "A Tetris simulation game made as test case for a Lead Developer role at a company in the game development industry.",
+  "keywords": [
+    "game",
+    "tetris",
+    "pixi.js",
+    "typescript"
+  ],
+  "license": "ISC",
+  "main": "./src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmirOssanloo/tetris-simulation-case.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "scripts": {
+    "test": "mocha --watch --require @babel/register",
+    "watch": "NODE_ENV=development webpack-dev-server --mode=development",
+    "dist": "NODE_ENV=production webpack --mode=production"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/polyfill": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/preset-typescript": "^7.10.1",
+    "@babel/register": "^7.10.1",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "chai": "^4.2.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "html-webpack-plugin": "^4.3.0",
+    "mocha": "^8.0.1",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "pixi.js": "^5.2.4"
+  }
 }
