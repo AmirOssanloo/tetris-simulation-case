@@ -1,9 +1,9 @@
-interface ICellState {
+interface CellState {
   readonly AVAILABLE: number;
   readonly OCCUPIED: number;
 };
 
-const CellState: ICellState = {
+const CellState: CellState = {
   AVAILABLE: 0,
   OCCUPIED: 1
 };

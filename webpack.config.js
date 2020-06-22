@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const environment = process.env.NODE_ENV || 'development';
@@ -22,6 +23,9 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src', 'index.html')
+    }),
+    new webpack.ProvidePlugin({
+      PIXI: 'pixi.js'
     })
   ],
   resolve: {

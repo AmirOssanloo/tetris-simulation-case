@@ -1,15 +1,15 @@
 import { Container } from 'pixi.js';
 import config from '#root/config/';
-import Renderer from '#root/Game/Renderer';
 import Grid from '#root/Game/Grid';
-import { Tetromino, TetrominoType } from '#root/Game/Tetromino';
+import IView from './IView';
 
-class Game extends Container {
+
+class GamePlay extends Container {
   app: any;
   grid: any;
   tetromino: any;
   tetrominoSpeed: number;
-  tetrominoTimer: number;
+  tetromnoTimer: number;
   renderer: any;
 
   constructor(app: object) {
@@ -17,100 +17,49 @@ class Game extends Container {
 
     this.app = app;
     this.grid = new Grid();
+    this.addChild(this.grid);
 
-    this.tetromino = new Tetromino(TetrominoType.VADER);
-    this.tetrominoSpeed = config.game.speed;
-    this.tetrominoTimer = this.tetrominoSpeed;
-
-    console.log(this.tetrominoTimer);
-
-    this.renderer = new Renderer();
-    this.addChild(this.renderer);
+    this.start();
   };
+  
+  // Get full rows from grid
+  // Clear a full row and move down other pieces
 
   start() {
-    const tetromino = new Tetromino(TetrominoType.VADER);
-    tetromino.row = 0;
-    tetromino.col = 0;
-
-    this.tetromino = tetromino;
+    this.grid.setCell(8, 0, { color: 0xCCA4A4, state: 1 });
+    this.grid.setCell(8, 1, { color: 0xCCA4A4, state: 1 });
+    this.grid.setCell(8, 2, { color: 0xCCA4A4, state: 1 });
+    this.grid.setCell(8, 3, { color: 0xCCA4A4, state: 1 });
+    this.grid.setCell(8, 5, { color: 0xCCA4A4, state: 1 });
+    this.grid.setCell(9, 1, { color: 0xCCA4A4, state: 1 });
+    this.grid.setCell(9, 2, { color: 0xCCA4A4, state: 1 });
+    this.grid.setCell(9, 4, { color: 0xCCA4A4, state: 1 });
+    this.grid.setCell(9, 5, { color: 0xCCA4A4, state: 1 });
+    this.grid.setCell(10, 0, { color: 0xCCA4A4, state: 1 });
+    this.grid.setCell(10, 1, { color: 0xCCA4A4, state: 1 });
+    this.grid.setCell(10, 2, { color: 0xCCA4A4, state: 1 });
+    this.grid.setCell(10, 3, { color: 0xCCA4A4, state: 1 });
+    this.grid.setCell(10, 4, { color: 0xCCA4A4, state: 1 });
+    this.grid.setCell(10, 5, { color: 0xCCA4A4, state: 1 });
+    this.grid.setCell(11, 0, { color: 0xCCA4A4, state: 1 });
+    this.grid.setCell(11, 1, { color: 0xCCA4A4, state: 1 });
+    this.grid.setCell(11, 2, { color: 0xCCA4A4, state: 1 });
+    this.grid.setCell(11, 3, { color: 0xCCA4A4, state: 1 });
+    this.grid.setCell(11, 4, { color: 0xCCA4A4, state: 1 });
+    this.grid.setCell(11, 5, { color: 0xCCA4A4, state: 1 });
   };
 
   stop() {
-    this.app.ticker.stop();
+
   };
 
   gameover() {
     this.stop();
   };
 
-  collision(offsetRow: number, offsetCol: number) {
-    const positions = this.tetromino.getGlobalPos(offsetRow, offsetCol);
-
-    return positions.some((position: { row: number, col: number }) => {
-      if (position.row >= this.grid.rows) return true;
-      if (position.col < 0 || position.col > this.grid.col) return true; 
-
-      return this.grid.cells[position.row][position.col];
-    });
-  };
-
-  spawn() {
-    const types: string[] = Object.keys(TetrominoType);
-    const typeId: number = Math.floor(Math.random() * types.length);
-    const type: string = types[typeId];
-
-    this.tetromino = new Tetromino(TetrominoType[type]);
-    
-    const collided = this.collision(0, 0);
-    
-    if (collided) {
-      console.log('GAME OVER');
-      this.lock();
-      this.gameover();
-    }
-  };
-
-  lock() {
-    const currPositions = this.tetromino.getGlobalPos(0, 0);
-    this.grid.occupy(currPositions);
-    this.tetromino = null;
-
-    const fullRows = this.grid.getFullRows();
-
-    if (fullRows.length > 0) {
-      this.grid.clearRows(fullRows);
-    }
-  };
-
   update() {
-    // Draw sprites for each grid on the map
 
-    // 1. Update tetromino position
-    // 2. Update board grids
-    // 3. Updatee tetromino grids
-    this.renderer.renderBoard(this.grid.cells);
-
-    if (this.tetromino) {
-      this.tetrominoTimer -= 1;
-
-      if (this.tetrominoTimer <= 0) {
-        const collided = this.collision(1, 0);
-
-        if (collided) {
-          this.lock();
-          this.spawn();
-        } else {
-          this.tetromino.row++;
-        }
-
-        this.tetrominoTimer = this.tetrominoSpeed;
-      }
-
-      
-      this.renderer.renderTetromino(this.tetromino);
-    }
   };
 };
 
-export default Game;
+export default GamePlay;

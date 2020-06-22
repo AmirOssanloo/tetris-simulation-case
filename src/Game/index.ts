@@ -12,14 +12,13 @@ class Game {
 
   start() {
     this.view = new GamePlay(this.app);
-    
     this.state = StateType.GAMEPLAY;
     this.app.stage.addChild(this.view);
     this.app.ticker.add(this.update, this);
   };
 
-  update(delta: any) {
-    this.view.update(delta);
+  update() {
+    this.view.update();
   };
 };
 
