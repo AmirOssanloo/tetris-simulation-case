@@ -32,10 +32,11 @@ class Cell extends Container implements ICell {
     this.sprite = new Sprite(Texture.WHITE);
     this.sprite.width = size;
     this.sprite.height = size;
-    this.sprite.x = this.col * (size + margin) + margin;
-    this.sprite.y = this.row * (size + margin) + margin;
-    this.sprite.tint = this.color;
+    this.sprite.x = col * (size + margin) + margin;
+    this.sprite.y = row * (size + margin) + margin;
+    this.setColor(this.color);
     this.addChild(this.sprite);
+
   };
 
   setColor(color: number) {

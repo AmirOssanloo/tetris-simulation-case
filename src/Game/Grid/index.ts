@@ -1,7 +1,7 @@
 import { Container } from 'pixi.js';
 import config from '#root/config';
 import { Position } from '#root/types';
-import { Cell } from './Cell';
+import { Cell, CellState } from './Cell';
 
 class Grid extends Container {
   rows: number;
@@ -29,11 +29,8 @@ class Grid extends Container {
     }
   };
 
-  
-
-  setCells(position: Position, values: { color?: number, state?: number }) {
-    position.forEach((pos: number[]) => {
-      console.log(pos);
+  setCells(positions: Position[], values: { color?: number, state?: number }) {
+    positions.forEach((pos: number[]) => {
       const row = pos[0];
       const col = pos[1];
 
@@ -43,33 +40,37 @@ class Grid extends Container {
       if (color) cell.setColor(color);
       if (state) cell.setState(state);
     });
+
+    return this.getFullRows(positions);
   };
 
-  setCell(row: number, col: number, values: { color?: number, state?: number }) {
-    const cell = this.cells[row][col];
-    const { color, state } = values;
-    
-    if (color) cell.setColor(color);
-    if (state) cell.setState(state);
+  getFullRows(positions: Position[]) {
+    let rowsToCheck: number[] = [];
+
+    positions.forEach((pos: number[]) => {
+      const index: number = pos[0];
+
+      if (!rowsToCheck[index]) {
+        rowsToCheck[index] = index;
+      }
+    });
+
+    return rowsToCheck
+      .filter((item: any) => item !== null)
+      .filter(this.isFullRow, this);
   };
 
-  getFullRows() {
-
+  isFullRow(row: number) {
+    return this.cells[row].every((cell: any) => cell.state);
   };
 
-  clearFullRows() {
-    // [3, 2] Row nr 3 and 2
-    // [2, 3] Sorted to 2 and 3
-
-    // this.grid.splice(1, 1) to remove row
-        // Create empty row
-
-    // this.grid.splice(0, 1) to remove row
-        // Create empty row
-
-    // Add new rows to the beginning with
-    // Array.prototype.unshift.apply(this.grid, emptyRows);
-  };
+  update() {
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.cols; j++) {
+        
+      }
+    }
+  }
 };
 
 export default Grid;
