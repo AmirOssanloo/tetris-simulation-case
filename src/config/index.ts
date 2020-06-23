@@ -17,7 +17,7 @@ interface Game {
 const game: Game = {
   rows: 12,
   cols: 3,
-  speed: 15
+  speed: 25
 };
 
 interface Display {

@@ -1,16 +1,13 @@
-import { Container } from 'pixi.js';
 import config from '#root/config';
 import { Position } from '#root/types';
-import { Cell, CellState } from './Cell';
+import { Cell } from './Cell';
 
-class Grid extends Container {
+class Grid {
   rows: number;
   cols: number;
   cells: any[][];
 
   constructor() {
-    super();
-
     this.rows = config.game.rows;
     this.cols = config.game.cols;
     this.cells = [];
@@ -19,9 +16,7 @@ class Grid extends Container {
       const row: any = [];
 
       for (let j = 0; j < this.cols; j++) {
-        const cell = new Cell(i, j);
-        this.addChild(cell);
-        
+        const cell = new Cell();
         row.push(cell);
       }
 
@@ -37,11 +32,47 @@ class Grid extends Container {
       const cell = this.cells[row][col];
       const { color, state } = values;
 
-      if (color) cell.setColor(color);
-      if (state) cell.setState(state);
+      console.log(cell);
+
+      if (color) cell.color = color;
+      if (state) cell.state = state;
     });
 
     return this.getFullRows(positions);
+  };
+
+  collision(tetromino: any, offsetRow: number = 0, offsetCol: number = 0) {
+    const positions = tetromino.getGlobalPos(offsetRow, offsetCol);
+
+    return positions.some((position: number[]) => {
+      const row = position[0];
+      const col = position[1];
+
+      if (row >= this.rows) return true;
+      if (col < 0 || col > this.cols) return true; 
+
+      return this.cells[row][col].state;
+    });
+  };
+
+  clearRows(rows: number[]) {
+    const sortedRows: number[] = [...rows].filter((a, b) => a - b);
+    const newRows: number[] = [];
+
+    for (let i = sortedRows.length - 1; i >= 0 ; i--) {
+      this.cells.splice(sortedRows[i], 1)
+
+      const newRow: any = [];
+
+      for (let j = 0; j < this.cols; j++) {
+        const cell = new Cell();
+        newRow.push(cell);
+      }
+
+      newRows.push(newRow);
+    }
+
+    Array.prototype.unshift.apply(this.cells, newRows);
   };
 
   getFullRows(positions: Position[]) {
@@ -63,14 +94,6 @@ class Grid extends Container {
   isFullRow(row: number) {
     return this.cells[row].every((cell: any) => cell.state);
   };
-
-  update() {
-    for (let i = 0; i < this.rows; i++) {
-      for (let j = 0; j < this.cols; j++) {
-        
-      }
-    }
-  }
 };
 
 export default Grid;
